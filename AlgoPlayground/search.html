@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Search — AlgoPlayground</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <header class="header container header-inner">
+    <div class="brand"><a href="index.html">AlgoPlayground</a></div>
+    <nav class="nav"><a href="sorting.html">Sorting</a><a href="search.html" class="active">Search</a><a href="graph.html">Graph</a></nav>
+  </header>
+
+  <main class="container">
+    <section class="panel controls">
+      <label>Array size: <span id="bsSizeLabel">25</span>
+        <input id="bsSize" type="range" min="7" max="70" value="25">
+      </label>
+
+      <label>Target value:
+        <input id="targetValue" type="number" value="42">
+      </label>
+
+      <label>Speed (ms)
+        <input id="bsSpeed" type="range" min="50" max="1000" value="300">
+      </label>
+
+      <div class="btn-row">
+        <button id="bsGenBtn" class="btn">Generate Sorted</button>
+        <button id="bsStartBtn" class="btn">Start Binary Search</button>
+        <button id="bsPauseBtn" class="btn outline" disabled>Pause</button>
+        <button id="bsStepBtn" class="btn outline">Step</button>
+        <button id="bsResetBtn" class="btn outline">Reset</button>
+      </div>
+
+      <div class="metrics">
+        <div>Probes: <span id="probes">0</span></div>
+      </div>
+    </section>
+
+    <section class="panel visual-area">
+      <div id="bsBars" class="bars"></div>
+      <pre id="bsPseudocode" class="pseudocode"></pre>
+    </section>
+  </main>
+
+  <script src="assets/js/searchVisualizer.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
