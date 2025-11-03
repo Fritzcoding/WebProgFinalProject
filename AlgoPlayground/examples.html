@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Examples — AlgoPlayground</title><link rel="stylesheet" href="assets/css/styles.css"></head>
+<body>
+  <header class="header container header-inner"><div class="brand"><a href="index.html">AlgoPlayground</a></div><nav class="nav"><a href="sorting.html">Sorting</a><a href="search.html">Search</a><a href="graph.html">Graph</a></nav></header>
+  <main class="container">
+    <section class="panel">
+      <h2>Examples (loaded from assets/data/examples.json)</h2>
+      <div id="examplesContainer">Loading examples...</div>
+    </section>
+  </main>
+
+  <script>
+    fetch('assets/data/examples.json').then(r=>r.json()).then(data=>{
+      const c = document.getElementById('examplesContainer');
+      let html = '<h3>Sorting</h3><ul>';
+      (data.sorting||[]).forEach(s=> html += `<li><strong>${s.name}</strong>: [${s.array.join(', ')}]</li>`);
+      html += '</ul><h3>Graphs</h3><ul>';
+      (data.graphs||[]).forEach(g=> html += `<li><strong>${g.name}</strong>: nodes=${g.nodes.length}, edges=${g.edges.length}</li>`);
+      html += '</ul>';
+      c.innerHTML = html;
+    }).catch(e=> document.getElementById('examplesContainer').textContent = 'Failed to load examples.');
+  </script>
+</body>
+</html>
