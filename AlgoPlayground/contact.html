@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Contact — AlgoPlayground</title><link rel="stylesheet" href="assets/css/styles.css"></head>
+<body>
+  <header class="header container header-inner"><div class="brand"><a href="index.html">AlgoPlayground</a></div></header>
+  <main class="container">
+    <section class="panel">
+      <h2>Contact</h2>
+      <form id="contactForm" novalidate>
+        <label>姓名<input id="cname" required></label>
+        <label>電子郵件<input id="cemail" type="email" required></label>
+        <label>訊息<textarea id="cmsg" rows="5" required></textarea></label>
+        <div class="btn-row"><button class="btn" type="submit">Send</button><button class="btn outline" type="reset">Reset</button></div>
+        <p id="cresult" class="note"></p>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const n = document.getElementById('cname').value.trim();
+      const em = document.getElementById('cemail').value.trim();
+      const msg = document.getElementById('cmsg').value.trim();
+      const out = document.getElementById('cresult');
+      if(!n || !em || !msg){ out.textContent='請完整填寫'; out.style.color='crimson'; return; }
+      out.textContent = '已送出（模擬） — 謝謝！'; out.style.color='green';
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>
