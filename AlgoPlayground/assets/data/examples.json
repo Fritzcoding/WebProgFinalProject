@@ -1,0 +1,12 @@
+{
+  "sorting": [
+    {"name":"Nearly Sorted","array":[1,2,3,5,4,6,7,8,9,10]},
+    {"name":"Reverse","array":[10,9,8,7,6,5,4,3,2,1]},
+    {"name":"Few Unique","array":[5,1,5,2,5,3,5,2,5,1]},
+    {"name":"Random Small","array":[3,8,2,5,1,7,6,4,9,0]}
+  ],
+  "graphs": [
+    {"name":"Triangle","nodes":[{"id":"A"},{"id":"B"},{"id":"C"}],"edges":[["A","B"],["B","C"],["C","A"]]},
+    {"name":"Line 5","nodes":[{"id":"1"},{"id":"2"},{"id":"3"},{"id":"4"},{"id":"5"}],"edges":[["1","2"],["2","3"],["3","4"],["4","5"]]}
+  ]
+}
