@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Sorting — AlgoPlayground</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <header class="header container header-inner">
+    <div class="brand"><a href="index.html">AlgoPlayground</a></div>
+    <nav class="nav"><a href="sorting.html" class="active">Sorting</a><a href="search.html">Search</a><a href="graph.html">Graph</a><a href="algorithms.html">Info</a></nav>
+  </header>
+
+  <main class="container">
+    <section class="panel controls">
+      <label>Algorithm
+        <select id="sortAlgorithm">
+          <option value="selection">Selection Sort</option>
+          <option value="insertion">Insertion Sort</option>
+          <option value="merge">Merge Sort</option>
+        </select>
+      </label>
+
+      <label>Array size: <span id="sizeLabel">30</span>
+        <input id="size" type="range" min="6" max="120" value="30">
+      </label>
+
+      <label>Speed (ms)
+        <input id="speed" type="range" min="5" max="800" value="160">
+      </label>
+
+      <div class="btn-row">
+        <button id="genBtn" class="btn">Generate</button>
+        <button id="loadExampleBtn" class="btn outline">Load Example</button>
+        <select id="exampleSelect"></select>
+      </div>
+
+      <div class="btn-row">
+        <button id="startBtn" class="btn">Start</button>
+        <button id="pauseBtn" class="btn outline" disabled>Pause</button>
+        <button id="stepBtn" class="btn outline">Step</button>
+        <button id="backBtn" class="btn outline">Back</button>
+        <button id="resetBtn" class="btn outline">Reset</button>
+      </div>
+
+      <div class="metrics">
+        <div>Comparisons: <span id="comp">0</span></div>
+        <div>Swaps: <span id="swaps">0</span></div>
+      </div>
+    </section>
+
+    <section class="panel visual-area">
+      <div id="bars" class="bars" aria-hidden="false"></div>
+      <pre id="pseudocode" class="pseudocode"></pre>
+    </section>
+  </main>
+
+  <script src="assets/js/sortingVisualizer.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
