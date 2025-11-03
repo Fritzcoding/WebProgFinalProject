@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Graph — AlgoPlayground</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <header class="header container header-inner">
+    <div class="brand"><a href="index.html">AlgoPlayground</a></div>
+    <nav class="nav"><a href="sorting.html">Sorting</a><a href="search.html">Search</a><a href="graph.html" class="active">Graph</a></nav>
+  </header>
+
+  <main class="container">
+    <section class="panel controls">
+      <div class="btn-row">
+        <button id="addNode" class="btn">Add Node</button>
+        <button id="addEdge" class="btn outline">Add Edge</button>
+        <button id="clearGraph" class="btn outline">Clear</button>
+      </div>
+
+      <label>Start Node:
+        <select id="graphStart"></select>
+      </label>
+
+      <div class="btn-row">
+        <button id="runBFS" class="btn">Run BFS</button>
+        <button id="runDFS" class="btn">Run DFS</button>
+        <button id="resetGraphColors" class="btn outline">Reset Colors</button>
+      </div>
+
+      <div class="metrics">
+        <div>Visited: <span id="gVisited">0</span></div>
+      </div>
+      <p class="note">Click a node to select it for creating edges. Drag nodes to move them.</p>
+    </section>
+
+    <section class="panel visual-area">
+      <div id="graphArea" class="graph-area" tabindex="0" aria-label="Graph editor"></div>
+      <pre id="graphPseudo" class="pseudocode"></pre>
+    </section>
+  </main>
+
+  <script src="assets/js/graphVisualizer.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
