@@ -15,9 +15,9 @@
   <main class="container">
     <section class="panel controls">
       <div class="btn-row">
-        <button id="addNode" class="btn">Add Node</button>
-        <button id="addEdge" class="btn outline">Add Edge</button>
-        <button id="clearGraph" class="btn outline">Clear</button>
+        <button id="addNode" class="btn" title="Add a node">Add Node</button>
+        <button id="addEdge" class="btn outline" title="Toggle edge mode">Add Edge</button>
+        <button id="clearGraph" class="btn outline" title="Clear all">Clear</button>
       </div>
 
       <label>Start Node:
@@ -25,11 +25,12 @@
       </label>
 
       <div class="btn-row">
-        <button id="runBFS" class="btn">Run BFS</button>
-        <button id="runDFS" class="btn">Run DFS</button>
-        <button id="resetGraphColors" class="btn outline">Reset Colors</button>
+        <button id="runBFS" class="btn" title="Run BFS">Run BFS</button>
+        <button id="runDFS" class="btn" title="Run DFS">Run DFS</button>
+        <button id="resetGraphColors" class="btn outline" title="Reset colors">Reset Colors</button>
       </div>
 
+      <div class="progress-bar"><div id="graphProgress" class="progress-fill"></div></div>
       <div class="metrics">
         <div>Visited: <span id="gVisited">0</span></div>
       </div>
