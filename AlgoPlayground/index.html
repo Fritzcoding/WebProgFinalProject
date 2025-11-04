@@ -3,53 +3,167 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>AlgoPlayground</title>
+  <title>AlgoPlayground - Interactive Algorithm Visualizer</title>
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <header class="header">
     <div class="container header-inner">
       <div class="brand">
         <h1>AlgoPlayground</h1>
-        <p class="subtitle">Learn algorithms visually — step by step</p>
+        <p class="subtitle">Visualize algorithms step by step</p>
       </div>
       <nav class="nav">
-        <a href="sorting.html">Sorting</a>
-        <a href="search.html">Search</a>
-        <a href="graph.html">Graph</a>
-        <a href="algorithms.html">Info</a>
-        <a href="examples.html">Examples</a>
-        <a href="about.html">About</a>
+        <a href="sorting.html" class="nav-link">
+          <span class="nav-icon">📊</span>
+          Sorting
+        </a>
+        <a href="search.html" class="nav-link">
+          <span class="nav-icon">🔍</span>
+          Search
+        </a>
+        <a href="graph.html" class="nav-link">
+          <span class="nav-icon">🕸️</span>
+          Graph
+        </a>
+        <a href="algorithms.html" class="nav-link">
+          <span class="nav-icon">📚</span>
+          Algorithms
+        </a>
       </nav>
-      <button id="themeToggle" class="btn outline" title="Toggle Dark Mode">🌙</button>
     </div>
   </header>
 
-  <main class="container main-hero">
-    <section class="card">
-      <h2>Interactive algorithm visualizer</h2>
-      <p>Choose a category: <strong>Sorting</strong>, <strong>Search</strong>, or <strong>Graph</strong>. Each visualizer supports Start / Pause / Step / Reset, shows pseudo-code, and loads examples via AJAX.</p>
-      <div class="cta-row">
-        <a class="btn" href="sorting.html">Try Sorting ▶</a>
-        <a class="btn outline" href="graph.html">Try Graph ▶</a>
-        <a class="btn outline" href="search.html">Try Binary Search ▶</a>
+  <main class="container">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">Learn Algorithms Visually</h1>
+        <p class="hero-description">
+          Step-by-step interactive visualizations for sorting, searching, and graph algorithms. 
+          Perfect for students and developers to understand how algorithms work.
+        </p>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-number">3</span>
+            <span class="stat-label">Categories</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">6</span>
+            <span class="stat-label">Algorithms</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Interactive</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="algorithm-preview">
+          <div class="preview-bars">
+            <div class="preview-bar" style="height: 30%"></div>
+            <div class="preview-bar" style="height: 70%"></div>
+            <div class="preview-bar" style="height: 50%"></div>
+            <div class="preview-bar" style="height: 90%"></div>
+            <div class="preview-bar" style="height: 20%"></div>
+            <div class="preview-bar" style="height: 60%"></div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="card small">
-      <h3>Team</h3>
-      <p>陳輝 &amp; 宋承翰</p>
-      <h3>Deployment</h3>
-      <p>Frontend-only — Deploy to GitHub Pages (recommended).</p>
+    <!-- Features Grid -->
+    <section class="features">
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Sorting Algorithms</h3>
+        <p>Visualize Selection, Insertion, and Merge Sort with real-time comparisons and swaps tracking.</p>
+        <ul class="feature-list">
+          <li>Step-by-step execution</li>
+          <li>Performance metrics</li>
+          <li>Multiple examples</li>
+        </ul>
+        <a href="sorting.html" class="btn feature-btn">
+          Explore Sorting
+          <span class="btn-arrow">→</span>
+        </a>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <h3>Binary Search</h3>
+        <p>Understand how Binary Search efficiently finds elements in sorted arrays with visual probes.</p>
+        <ul class="feature-list">
+          <li>Interactive search</li>
+          <li>Step control</li>
+          <li>Probe counter</li>
+        </ul>
+        <a href="search.html" class="btn feature-btn">
+          Try Search
+          <span class="btn-arrow">→</span>
+        </a>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🕸️</div>
+        <h3>Graph Algorithms</h3>
+        <p>Build graphs and visualize BFS and DFS traversal with interactive node creation.</p>
+        <ul class="feature-list">
+          <li>Drag & drop nodes</li>
+          <li>Visual traversal</li>
+          <li>Real-time editing</li>
+        </ul>
+        <a href="graph.html" class="btn feature-btn">
+          Create Graphs
+          <span class="btn-arrow">→</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Quick Start Section -->
+    <section class="quick-start">
+      <h2>Get Started in Seconds</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h4>Choose Algorithm</h4>
+          <p>Select from sorting, search, or graph algorithms</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h4>Configure Parameters</h4>
+          <p>Adjust size, speed, and other settings</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h4>Visualize & Learn</h4>
+          <p>Run step by step with full control</p>
+        </div>
+      </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="container">AlgoPlayground — Web Programming Final Project 2025</div>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <h3>AlgoPlayground</h3>
+          <p>Interactive algorithm visualization platform</p>
+        </div>
+        <div class="footer-links">
+          <a href="about.html">About</a>
+          <a href="examples.html">Examples</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 AlgoPlayground — Web Programming Final Project</p>
+      </div>
+    </div>
   </footer>
+
   <script src="assets/js/main.js"></script>
 </body>
 </html>
