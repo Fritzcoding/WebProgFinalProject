@@ -1,12 +1,54 @@
-/* main.js — wires controls to visualizers. Place on all pages. */
-document.addEventListener('DOMContentLoaded', ()=> {
-  // fetch examples
+/* main.js — enhanced with better error handling and UX */
+document.addEventListener('DOMContentLoaded', () => {
+  // Global state for examples
   let examples = null;
-  fetch('assets/data/examples.json').then(r=>r.json()).then(d=> examples = d).catch(()=>{ examples = null; });
+  
+  // Enhanced fetch with loading states
+  const loadExamples = async () => {
+    try {
+      const response = await fetch('assets/data/examples.json');
+      if (!response.ok) throw new Error('Failed to load examples');
+      examples = await response.json();
+      console.log('Examples loaded successfully');
+    } catch (error) {
+      console.warn('Could not load examples:', error);
+      examples = null;
+    }
+  };
+
+  // Initialize examples
+  loadExamples();
+
+  // Utility function to show temporary message
+  const showMessage = (message, type = 'info', duration = 3000) => {
+    const messageEl = document.createElement('div');
+    messageEl.className = `message message-${type} fade-in`;
+    messageEl.textContent = message;
+    messageEl.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: ${type === 'error' ? '#ef4444' : type === 'success' ? '#10b981' : '#3b82f6'};
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      z-index: 1000;
+      font-weight: 500;
+    `;
+    
+    document.body.appendChild(messageEl);
+    
+    setTimeout(() => {
+      messageEl.style.opacity = '0';
+      messageEl.style.transform = 'translateX(100px)';
+      setTimeout(() => messageEl.remove(), 300);
+    }, duration);
+  };
 
   /* -------- SORTING PAGE WIRING -------- */
   const bars = document.getElementById('bars');
-  if(bars && window.SortingVisualizer){
+  if (bars && window.SortingVisualizer) {
     const size = document.getElementById('size');
     const sizeLabel = document.getElementById('sizeLabel');
     const speed = document.getElementById('speed');
@@ -24,42 +66,130 @@ document.addEventListener('DOMContentLoaded', ()=> {
     const algSelect = document.getElementById('sortAlgorithm');
 
     const vis = new SortingVisualizer(bars, {
-      onUpdate: (m)=> { comp.textContent = m.comps; swaps.textContent = m.swaps; },
-      onPseudo: (code)=> { pseudo.textContent = code; }
+      onUpdate: (m) => { 
+        comp.textContent = m.comps; 
+        swaps.textContent = m.swaps; 
+      },
+      onPseudo: (code) => { 
+        pseudo.textContent = code; 
+        // Add syntax highlighting
+        setTimeout(() => highlightPseudocode(pseudo), 10);
+      },
+      onMessage: showMessage
     });
-    if(examples && examples.sorting){
-      vis.setExamples(examples.sorting);
-      examples.sorting.forEach((s,i)=> {
-        const opt = document.createElement('option'); opt.value = i; opt.textContent = s.name; exampleSelect.appendChild(opt);
-      });
-    }
 
+    // Enhanced examples loading
+    const setupExamples = () => {
+      if (examples && examples.sorting) {
+        vis.setExamples(examples.sorting);
+        exampleSelect.innerHTML = '<option value="">Choose example...</option>';
+        examples.sorting.forEach((s, i) => {
+          const opt = document.createElement('option');
+          opt.value = i;
+          opt.textContent = s.name;
+          exampleSelect.appendChild(opt);
+        });
+        exampleSelect.disabled = false;
+        loadExampleBtn.disabled = false;
+      } else {
+        exampleSelect.innerHTML = '<option value="">No examples available</option>';
+        exampleSelect.disabled = true;
+        loadExampleBtn.disabled = true;
+      }
+    };
+
+    // Update examples when loaded
+    const checkExamples = setInterval(() => {
+      if (examples !== null) {
+        setupExamples();
+        clearInterval(checkExamples);
+      }
+    }, 100);
+
+    // Enhanced event handlers
     sizeLabel.textContent = size.value;
-    size.addEventListener('input', ()=> sizeLabel.textContent = size.value);
-
-    genBtn.addEventListener('click', ()=> vis.generate(parseInt(size.value,10)));
-    loadExampleBtn.addEventListener('click', ()=> {
-      const idx = parseInt(exampleSelect.value,10);
-      if(!isNaN(idx)) vis.loadExample(idx);
+    size.addEventListener('input', () => {
+      sizeLabel.textContent = size.value;
+      sizeLabel.style.transform = 'scale(1.1)';
+      setTimeout(() => sizeLabel.style.transform = 'scale(1)', 200);
     });
 
-    startBtn.addEventListener('click', async ()=>{
-      startBtn.disabled=true; pauseBtn.disabled=false;
-      await vis.run(algSelect.value, parseInt(speed.value,10));
-      startBtn.disabled=false; pauseBtn.disabled=true;
+    genBtn.addEventListener('click', () => {
+      genBtn.classList.add('loading');
+      setTimeout(() => {
+        vis.generate(parseInt(size.value, 10));
+        genBtn.classList.remove('loading');
+        showMessage('New array generated', 'success');
+      }, 300);
     });
-    pauseBtn.addEventListener('click', ()=> { vis.paused = true; pauseBtn.disabled=true; startBtn.disabled=false; });
-    stepBtn.addEventListener('click', ()=> vis.step());
-    backBtn.addEventListener('click', ()=> vis.back());
-    resetBtn.addEventListener('click', ()=> vis._reset());
 
-    // initial generate
-    vis.generate(parseInt(size.value,10));
+    loadExampleBtn.addEventListener('click', () => {
+      const idx = parseInt(exampleSelect.value, 10);
+      if (!isNaN(idx) && examples && examples.sorting[idx]) {
+        vis.loadExample(idx);
+        showMessage(`Loaded: ${examples.sorting[idx].name}`, 'success');
+      } else {
+        showMessage('Please select a valid example', 'error');
+      }
+    });
+
+    startBtn.addEventListener('click', async () => {
+      if (!algSelect.value) {
+        showMessage('Please select an algorithm', 'error');
+        return;
+      }
+      
+      startBtn.disabled = true;
+      pauseBtn.disabled = false;
+      stepBtn.disabled = true;
+      backBtn.disabled = true;
+      
+      try {
+        await vis.run(algSelect.value, parseInt(speed.value, 10));
+        showMessage('Sorting completed!', 'success');
+      } catch (error) {
+        showMessage('Sorting was interrupted', 'error');
+      } finally {
+        startBtn.disabled = false;
+        pauseBtn.disabled = true;
+        stepBtn.disabled = false;
+        backBtn.disabled = false;
+      }
+    });
+
+    pauseBtn.addEventListener('click', () => { 
+      vis.pause(); 
+      pauseBtn.disabled = true; 
+      startBtn.disabled = false;
+      stepBtn.disabled = false;
+      backBtn.disabled = false;
+      showMessage('Algorithm paused', 'info');
+    });
+
+    stepBtn.addEventListener('click', () => {
+      vis.step();
+      showMessage('Step executed', 'info', 1000);
+    });
+
+    backBtn.addEventListener('click', () => {
+      vis.back();
+      showMessage('Step reversed', 'info', 1000);
+    });
+
+    resetBtn.addEventListener('click', () => { 
+      vis._reset();
+      showMessage('Visualization reset', 'info');
+    });
+
+    // Initial generate with animation
+    setTimeout(() => {
+      vis.generate(parseInt(size.value, 10));
+    }, 500);
   }
 
   /* -------- BINARY SEARCH PAGE -------- */
   const bsBars = document.getElementById('bsBars');
-  if(bsBars && window.SearchVisualizer){
+  if (bsBars && window.SearchVisualizer) {
     const size = document.getElementById('bsSize');
     const sizeLabel = document.getElementById('bsSizeLabel');
     const genBtn = document.getElementById('bsGenBtn');
@@ -72,25 +202,82 @@ document.addEventListener('DOMContentLoaded', ()=> {
     const probes = document.getElementById('probes');
     const pseudo = document.getElementById('bsPseudocode');
 
-    const vis = new SearchVisualizer(bsBars, { onPseudo: (c)=> pseudo.textContent = c });
-    sizeLabel.textContent = size.value;
-    size.addEventListener('input', ()=> sizeLabel.textContent = size.value);
-    genBtn.addEventListener('click', ()=> vis.generateSorted(parseInt(size.value,10)));
-    startBtn.addEventListener('click', ()=> {
-      probes.textContent = '0';
-      vis.run(parseInt(targetInput.value,10), parseInt(speed.value,10)).then(()=> probes.textContent = vis.probes);
-      startBtn.disabled=true; pauseBtn.disabled=false;
+    const vis = new SearchVisualizer(bsBars, { 
+      onPseudo: (c) => {
+        pseudo.textContent = c;
+        setTimeout(() => highlightPseudocode(pseudo), 10);
+      },
+      onMessage: showMessage
     });
-    pauseBtn.addEventListener('click', ()=> { vis.pause(); pauseBtn.disabled=true; startBtn.disabled=false; });
-    stepBtn.addEventListener('click', ()=> vis.step());
-    resetBtn.addEventListener('click', ()=> vis._reset());
 
-    vis.generateSorted(parseInt(size.value,10));
+    sizeLabel.textContent = size.value;
+    size.addEventListener('input', () => {
+      sizeLabel.textContent = size.value;
+      sizeLabel.style.transform = 'scale(1.1)';
+      setTimeout(() => sizeLabel.style.transform = 'scale(1)', 200);
+    });
+
+    genBtn.addEventListener('click', () => {
+      genBtn.classList.add('loading');
+      setTimeout(() => {
+        vis.generateSorted(parseInt(size.value, 10));
+        genBtn.classList.remove('loading');
+        showMessage('Sorted array generated', 'success');
+      }, 300);
+    });
+
+    startBtn.addEventListener('click', () => {
+      const target = parseInt(targetInput.value, 10);
+      if (isNaN(target)) {
+        showMessage('Please enter a valid target number', 'error');
+        return;
+      }
+      
+      probes.textContent = '0';
+      startBtn.disabled = true;
+      pauseBtn.disabled = false;
+      stepBtn.disabled = true;
+      
+      vis.run(target, parseInt(speed.value, 10)).then((result) => {
+        probes.textContent = vis.probes;
+        if (result !== -1) {
+          showMessage(`Found target at index ${result}`, 'success');
+        } else {
+          showMessage('Target not found in array', 'warning');
+        }
+      }).finally(() => {
+        startBtn.disabled = false;
+        pauseBtn.disabled = true;
+        stepBtn.disabled = false;
+      });
+    });
+
+    pauseBtn.addEventListener('click', () => { 
+      vis.pause(); 
+      pauseBtn.disabled = true; 
+      startBtn.disabled = false;
+      showMessage('Search paused', 'info');
+    });
+
+    stepBtn.addEventListener('click', () => {
+      vis.step();
+      showMessage('Step executed', 'info', 1000);
+    });
+
+    resetBtn.addEventListener('click', () => { 
+      vis._reset();
+      showMessage('Search reset', 'info');
+    });
+
+    // Initial generate
+    setTimeout(() => {
+      vis.generateSorted(parseInt(size.value, 10));
+    }, 500);
   }
 
   /* -------- GRAPH PAGE -------- */
   const graphArea = document.getElementById('graphArea');
-  if(graphArea && window.GraphVisualizer){
+  if (graphArea && window.GraphVisualizer) {
     const addNodeBtn = document.getElementById('addNode');
     const addEdgeBtn = document.getElementById('addEdge');
     const clearBtn = document.getElementById('clearGraph');
@@ -100,43 +287,161 @@ document.addEventListener('DOMContentLoaded', ()=> {
     const visitedLabel = document.getElementById('gVisited');
     const resetColors = document.getElementById('resetGraphColors');
 
-    const gvis = new GraphVisualizer(graphArea, { onVisited: (c)=> visitedLabel.textContent = c });
+    const gvis = new GraphVisualizer(graphArea, { 
+      onVisited: (c) => visitedLabel.textContent = c,
+      onMessage: showMessage
+    });
 
-    function refreshStartOptions(){
-      startSelect.innerHTML = '<option value="">Select start</option>';
-      gvis.nodes.forEach(n=> { const o = document.createElement('option'); o.value = n.id; o.textContent = n.id; startSelect.appendChild(o); });
+    function refreshStartOptions() {
+      startSelect.innerHTML = '<option value="">Select start node...</option>';
+      gvis.nodes.forEach(n => { 
+        const o = document.createElement('option'); 
+        o.value = n.id; 
+        o.textContent = n.id; 
+        startSelect.appendChild(o); 
+      });
+      startSelect.disabled = gvis.nodes.length === 0;
     }
 
-    addNodeBtn.addEventListener('click', ()=> { gvis.addNode(80 + Math.random()*300, 80 + Math.random()*180); refreshStartOptions(); });
-    addEdgeBtn.addEventListener('click', ()=> { gvis.modeAddEdge = !gvis.modeAddEdge; addEdgeBtn.textContent = gvis.modeAddEdge ? 'Finish Edge' : 'Add Edge'; if(!gvis.modeAddEdge && gvis.selectedNode) { gvis.selectedNode.el.style.boxShadow=''; gvis.selectedNode=null; } });
-    clearBtn.addEventListener('click', ()=> { gvis.clear(); refreshStartOptions(); visitedLabel.textContent='0'; });
-    runBFS.addEventListener('click', ()=> { const s = startSelect.value; if(!s) return alert('Choose start node'); visitedLabel.textContent='0'; gvis.runBFS(s, 360); });
-    runDFS.addEventListener('click', ()=> { const s = startSelect.value; if(!s) return alert('Choose start node'); visitedLabel.textContent='0'; gvis.runDFS(s, 360); });
-    resetColors.addEventListener('click', ()=> { gvis.nodes.forEach(n=> n.el.style.background = 'linear-gradient(180deg,#0b74de,#0563a6)'); visitedLabel.textContent='0'; });
+    addNodeBtn.addEventListener('click', () => { 
+      const node = gvis.addNode(80 + Math.random() * 300, 80 + Math.random() * 180); 
+      refreshStartOptions();
+      showMessage(`Added node ${node.id}`, 'success', 1500);
+    });
 
-    // load first graph example if present
-    if(examples && examples.graphs && examples.graphs.length){
-      const g0 = examples.graphs[0];
-      // place nodes evenly
-      const w = graphArea.clientWidth, h = graphArea.clientHeight;
-      g0.nodes.forEach((nd,i)=> {
-        const angle = (i / g0.nodes.length) * Math.PI * 2;
-        const x = w/2 + Math.cos(angle) * (Math.min(w,h)/4);
-        const y = h/2 + Math.sin(angle) * (Math.min(w,h)/4);
-        const node = gvis.addNode(x,y);
-        node.id = nd.id || node.id;
-        node.el.textContent = node.id;
+    addEdgeBtn.addEventListener('click', () => { 
+      gvis.modeAddEdge = !gvis.modeAddEdge; 
+      addEdgeBtn.textContent = gvis.modeAddEdge ? 'Finish Edge' : 'Add Edge';
+      addEdgeBtn.classList.toggle('active', gvis.modeAddEdge);
+      
+      if (!gvis.modeAddEdge && gvis.selectedNode) { 
+        gvis.selectedNode.el.style.boxShadow = ''; 
+        gvis.selectedNode = null; 
+      }
+      
+      showMessage(gvis.modeAddEdge ? 'Click two nodes to connect them' : 'Edge mode disabled', 'info', 2000);
+    });
+
+    clearBtn.addEventListener('click', () => { 
+      if (gvis.nodes.length === 0) {
+        showMessage('Graph is already empty', 'info');
+        return;
+      }
+      
+      if (confirm('Are you sure you want to clear the entire graph?')) {
+        gvis.clear(); 
+        refreshStartOptions(); 
+        visitedLabel.textContent = '0'; 
+        showMessage('Graph cleared', 'success');
+      }
+    });
+
+    runBFS.addEventListener('click', () => { 
+      const s = startSelect.value; 
+      if (!s) {
+        showMessage('Please choose a start node', 'error');
+        return;
+      }
+      visitedLabel.textContent = '0'; 
+      runBFS.disabled = true;
+      runDFS.disabled = true;
+      gvis.runBFS(s, 360).finally(() => {
+        runBFS.disabled = false;
+        runDFS.disabled = false;
       });
-      g0.edges.forEach(e => gvis.addEdge(e[0], e[1]));
-      setTimeout(()=> refreshStartOptions(), 200);
+    });
+
+    runDFS.addEventListener('click', () => { 
+      const s = startSelect.value; 
+      if (!s) {
+        showMessage('Please choose a start node', 'error');
+        return;
+      }
+      visitedLabel.textContent = '0'; 
+      runBFS.disabled = true;
+      runDFS.disabled = true;
+      gvis.runDFS(s, 360).finally(() => {
+        runBFS.disabled = false;
+        runDFS.disabled = false;
+      });
+    });
+
+    resetColors.addEventListener('click', () => { 
+      gvis.nodes.forEach(n => n.el.style.background = 'linear-gradient(180deg,#3b82f6,#1d4ed8)'); 
+      visitedLabel.textContent = '0'; 
+      showMessage('Node colors reset', 'success');
+    });
+
+    // Load first graph example if present
+    if (examples && examples.graphs && examples.graphs.length) {
+      const checkGraphExamples = setInterval(() => {
+        if (examples !== null) {
+          const g0 = examples.graphs[0];
+          const w = graphArea.clientWidth, h = graphArea.clientHeight;
+          
+          g0.nodes.forEach((nd, i) => {
+            const angle = (i / g0.nodes.length) * Math.PI * 2;
+            const x = w/2 + Math.cos(angle) * (Math.min(w, h)/3);
+            const y = h/2 + Math.sin(angle) * (Math.min(w, h)/3);
+            const node = gvis.addNode(x, y);
+            node.id = nd.id || node.id;
+            node.el.textContent = node.id;
+          });
+          
+          g0.edges.forEach(e => gvis.addEdge(e[0], e[1]));
+          setTimeout(() => {
+            refreshStartOptions();
+            showMessage(`Loaded example: ${g0.name}`, 'success');
+          }, 200);
+          
+          clearInterval(checkGraphExamples);
+        }
+      }, 100);
     }
   }
 
-  // global keyboard: space toggles pause/resume where applicable
-  window.addEventListener('keydown', (e)=>{
-    if(e.code === 'Space'){ const s = document.activeElement.tagName; if(['INPUT','TEXTAREA','SELECT'].includes(s)) return; e.preventDefault();
-      // try to toggle pause on visible visualizers
-      const pauseBtns = document.querySelectorAll('button'); // simple toggle not intrusive
+  // Pseudocode syntax highlighting
+  function highlightPseudocode(preElement) {
+    const code = preElement.textContent;
+    const lines = code.split('\n');
+    
+    let highlighted = '';
+    lines.forEach(line => {
+      let highlightedLine = line
+        .replace(/(for|while|if|else|return|function|var|let|const)\b/g, '<span class="keyword">$1</span>')
+        .replace(/([a-zA-Z_][a-zA-Z0-9_]*)\(/g, '<span class="function">$1</span>(')
+        .replace(/([0-9]+)/g, '<span class="number">$1</span>')
+        .replace(/(\/\/.*$)/g, '<span class="comment">$1</span>');
+      
+      highlighted += highlightedLine + '\n';
+    });
+    
+    preElement.innerHTML = highlighted;
+  }
+
+  // Global keyboard shortcuts
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') { 
+      const activeTag = document.activeElement.tagName;
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(activeTag)) return;
+      e.preventDefault();
+      
+      // Toggle pause/resume for active visualizer
+      const pauseBtns = document.querySelectorAll('#pauseBtn, #bsPauseBtn');
+      pauseBtns.forEach(btn => {
+        if (!btn.disabled) btn.click();
+      });
+    }
+    
+    // Escape key to cancel edge mode in graph
+    if (e.code === 'Escape') {
+      const addEdgeBtn = document.getElementById('addEdge');
+      if (addEdgeBtn && addEdgeBtn.textContent === 'Finish Edge') {
+        addEdgeBtn.click();
+      }
     }
   });
+
+  // Add loading animation to page
+  document.body.classList.add('fade-in');
 });
