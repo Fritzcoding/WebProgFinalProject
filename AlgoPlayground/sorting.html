@@ -26,24 +26,25 @@
         <input id="size" type="range" min="6" max="120" value="30">
       </label>
 
-      <label>Speed (ms)
+      <label>Speed (ms): <span id="speedLabel">160</span>
         <input id="speed" type="range" min="5" max="800" value="160">
       </label>
 
       <div class="btn-row">
-        <button id="genBtn" class="btn">Generate</button>
-        <button id="loadExampleBtn" class="btn outline">Load Example</button>
+        <button id="genBtn" class="btn" title="Generate random array">Generate</button>
+        <button id="loadExampleBtn" class="btn outline" title="Load from examples">Load Example</button>
         <select id="exampleSelect"></select>
       </div>
 
       <div class="btn-row">
-        <button id="startBtn" class="btn">Start</button>
-        <button id="pauseBtn" class="btn outline" disabled>Pause</button>
-        <button id="stepBtn" class="btn outline">Step</button>
-        <button id="backBtn" class="btn outline">Back</button>
-        <button id="resetBtn" class="btn outline">Reset</button>
+        <button id="startBtn" class="btn" title="Start animation">Start</button>
+        <button id="pauseBtn" class="btn outline" disabled title="Pause animation">Pause</button>
+        <button id="stepBtn" class="btn outline" title="Step forward">Step</button>
+        <button id="backBtn" class="btn outline" title="Step back">Back</button>
+        <button id="resetBtn" class="btn outline" title="Reset to initial">Reset</button>
       </div>
 
+      <div class="progress-bar"><div id="progress" class="progress-fill"></div></div>
       <div class="metrics">
         <div>Comparisons: <span id="comp">0</span></div>
         <div>Swaps: <span id="swaps">0</span></div>
