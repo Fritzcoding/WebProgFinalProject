@@ -3,57 +3,193 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Sorting — AlgoPlayground</title>
+  <title>Sorting Algorithms — AlgoPlayground</title>
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
-  <header class="header container header-inner">
-    <div class="brand"><a href="index.html">AlgoPlayground</a></div>
-    <nav class="nav"><a href="sorting.html" class="active">Sorting</a><a href="search.html">Search</a><a href="graph.html">Graph</a><a href="algorithms.html">Info</a></nav>
+  <header class="header">
+    <div class="container header-inner">
+      <div class="brand">
+        <a href="index.html" class="brand-link">AlgoPlayground</a>
+        <p class="subtitle">Sorting Visualizer</p>
+      </div>
+      <nav class="nav">
+        <a href="sorting.html" class="nav-link active">
+          <span class="nav-icon">📊</span>
+          Sorting
+        </a>
+        <a href="search.html" class="nav-link">
+          <span class="nav-icon">🔍</span>
+          Search
+        </a>
+        <a href="graph.html" class="nav-link">
+          <span class="nav-icon">🕸️</span>
+          Graph
+        </a>
+        <a href="algorithms.html" class="nav-link">
+          <span class="nav-icon">📚</span>
+          Algorithms
+        </a>
+      </nav>
+    </div>
   </header>
 
   <main class="container">
-    <section class="panel controls">
-      <label>Algorithm
-        <select id="sortAlgorithm">
-          <option value="selection">Selection Sort</option>
-          <option value="insertion">Insertion Sort</option>
-          <option value="merge">Merge Sort</option>
-        </select>
-      </label>
-
-      <label>Array size: <span id="sizeLabel">30</span>
-        <input id="size" type="range" min="6" max="120" value="30">
-      </label>
-
-      <label>Speed (ms): <span id="speedLabel">160</span>
-        <input id="speed" type="range" min="5" max="800" value="160">
-      </label>
-
-      <div class="btn-row">
-        <button id="genBtn" class="btn" title="Generate random array">Generate</button>
-        <button id="loadExampleBtn" class="btn outline" title="Load from examples">Load Example</button>
-        <select id="exampleSelect"></select>
-      </div>
-
-      <div class="btn-row">
-        <button id="startBtn" class="btn" title="Start animation">Start</button>
-        <button id="pauseBtn" class="btn outline" disabled title="Pause animation">Pause</button>
-        <button id="stepBtn" class="btn outline" title="Step forward">Step</button>
-        <button id="backBtn" class="btn outline" title="Step back">Back</button>
-        <button id="resetBtn" class="btn outline" title="Reset to initial">Reset</button>
-      </div>
-
-      <div class="progress-bar"><div id="progress" class="progress-fill"></div></div>
-      <div class="metrics">
-        <div>Comparisons: <span id="comp">0</span></div>
-        <div>Swaps: <span id="swaps">0</span></div>
-      </div>
+    <!-- Page Header -->
+    <section class="page-header">
+      <h1>Sorting Algorithms</h1>
+      <p>Visualize how different sorting algorithms rearrange elements step by step</p>
     </section>
 
-    <section class="panel visual-area">
-      <div id="bars" class="bars" aria-hidden="false"></div>
-      <pre id="pseudocode" class="pseudocode"></pre>
+    <div class="visualization-layout">
+      <!-- Controls Panel -->
+      <section class="controls-panel">
+        <div class="panel-section">
+          <h3>Algorithm Selection</h3>
+          <label class="control-group">
+            <span class="control-label">Algorithm</span>
+            <select id="sortAlgorithm" class="control-select">
+              <option value="selection">Selection Sort</option>
+              <option value="insertion">Insertion Sort</option>
+              <option value="merge">Merge Sort</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="panel-section">
+          <h3>Array Configuration</h3>
+          <label class="control-group">
+            <span class="control-label">Array Size: <span id="sizeLabel">30</span></span>
+            <input id="size" type="range" min="6" max="120" value="30" class="control-range">
+          </label>
+
+          <label class="control-group">
+            <span class="control-label">Speed: <span id="speedLabel">160ms</span></span>
+            <input id="speed" type="range" min="5" max="800" value="160" class="control-range">
+          </label>
+
+          <div class="btn-group">
+            <button id="genBtn" class="btn btn-primary">
+              <span class="btn-icon">🔄</span>
+              Generate New
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3>Examples</h3>
+          <div class="control-group">
+            <select id="exampleSelect" class="control-select">
+              <option value="">Choose example...</option>
+            </select>
+            <button id="loadExampleBtn" class="btn btn-outline">
+              <span class="btn-icon">📁</span>
+              Load Example
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3>Execution Control</h3>
+          <div class="control-grid">
+            <button id="startBtn" class="btn btn-success">
+              <span class="btn-icon">▶️</span>
+              Start
+            </button>
+            <button id="pauseBtn" class="btn btn-warning" disabled>
+              <span class="btn-icon">⏸️</span>
+              Pause
+            </button>
+            <button id="stepBtn" class="btn btn-info">
+              <span class="btn-icon">⏭️</span>
+              Step
+            </button>
+            <button id="backBtn" class="btn btn-secondary">
+              <span class="btn-icon">⏮️</span>
+              Back
+            </button>
+            <button id="resetBtn" class="btn btn-outline">
+              <span class="btn-icon">🔄</span>
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3>Performance Metrics</h3>
+          <div class="metrics-grid">
+            <div class="metric">
+              <span class="metric-label">Comparisons</span>
+              <span id="comp" class="metric-value">0</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Swaps</span>
+              <span id="swaps" class="metric-value">0</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Time Complexity</span>
+              <span class="metric-value" id="timeComplexity">O(n²)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="keyboard-hint">
+            <span class="hint-icon">⌨️</span>
+            <span>Space: Play/Pause • S: Step • R: Reset</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Visualization Area -->
+      <section class="visualization-area">
+        <div class="visual-header">
+          <h3>Array Visualization</h3>
+          <div class="visual-legend">
+            <div class="legend-item">
+              <div class="legend-color default"></div>
+              <span>Normal</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color comparing"></div>
+              <span>Comparing</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color swapping"></div>
+              <span>Swapping</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color sorted"></div>
+              <span>Sorted</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="bars" class="bars-container"></div>
+
+        <div class="pseudo-section">
+          <h3>Algorithm Pseudocode</h3>
+          <pre id="pseudocode" class="pseudocode"></pre>
+        </div>
+      </section>
+    </div>
+
+    <!-- Algorithm Info -->
+    <section class="info-panel">
+      <div class="algorithm-info">
+        <h3>About Selection Sort</h3>
+        <p>Selection Sort works by repeatedly finding the minimum element from the unsorted part and putting it at the beginning.</p>
+        <div class="complexity-info">
+          <div class="complexity">
+            <strong>Time Complexity:</strong>
+            <span>Best: O(n²) • Average: O(n²) • Worst: O(n²)</span>
+          </div>
+          <div class="complexity">
+            <strong>Space Complexity:</strong>
+            <span>O(1)</span>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
