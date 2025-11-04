@@ -22,18 +22,19 @@
         <input id="targetValue" type="number" value="42">
       </label>
 
-      <label>Speed (ms)
+      <label>Speed (ms): <span id="bsSpeedLabel">300</span>
         <input id="bsSpeed" type="range" min="50" max="1000" value="300">
       </label>
 
       <div class="btn-row">
-        <button id="bsGenBtn" class="btn">Generate Sorted</button>
-        <button id="bsStartBtn" class="btn">Start Binary Search</button>
-        <button id="bsPauseBtn" class="btn outline" disabled>Pause</button>
-        <button id="bsStepBtn" class="btn outline">Step</button>
-        <button id="bsResetBtn" class="btn outline">Reset</button>
+        <button id="bsGenBtn" class="btn" title="Generate sorted array">Generate Sorted</button>
+        <button id="bsStartBtn" class="btn" title="Start binary search">Start Binary Search</button>
+        <button id="bsPauseBtn" class="btn outline" disabled title="Pause search">Pause</button>
+        <button id="bsStepBtn" class="btn outline" title="Step forward">Step</button>
+        <button id="bsResetBtn" class="btn outline" title="Reset">Reset</button>
       </div>
 
+      <div class="progress-bar"><div id="bsProgress" class="progress-fill"></div></div>
       <div class="metrics">
         <div>Probes: <span id="probes">0</span></div>
       </div>
