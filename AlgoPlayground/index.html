@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>AlgoPlayground</title>
   <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <header class="header">
@@ -21,6 +24,7 @@
         <a href="examples.html">Examples</a>
         <a href="about.html">About</a>
       </nav>
+      <button id="themeToggle" class="btn outline" title="Toggle Dark Mode">🌙</button>
     </div>
   </header>
 
@@ -29,9 +33,9 @@
       <h2>Interactive algorithm visualizer</h2>
       <p>Choose a category: <strong>Sorting</strong>, <strong>Search</strong>, or <strong>Graph</strong>. Each visualizer supports Start / Pause / Step / Reset, shows pseudo-code, and loads examples via AJAX.</p>
       <div class="cta-row">
-        <a class="btn" href="sorting.html">Try Sorting</a>
-        <a class="btn outline" href="graph.html">Try Graph</a>
-        <a class="btn outline" href="search.html">Try Binary Search</a>
+        <a class="btn" href="sorting.html">Try Sorting ▶</a>
+        <a class="btn outline" href="graph.html">Try Graph ▶</a>
+        <a class="btn outline" href="search.html">Try Binary Search ▶</a>
       </div>
     </section>
 
@@ -46,5 +50,6 @@
   <footer class="footer">
     <div class="container">AlgoPlayground — Web Programming Final Project 2025</div>
   </footer>
+  <script src="assets/js/main.js"></script>
 </body>
 </html>
