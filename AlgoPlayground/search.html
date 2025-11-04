@@ -1,193 +1,51 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Binary Search — AlgoPlayground</title>
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Search — AlgoPlayground</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body>
-  <header class="header">
-    <div class="container header-inner">
-      <div class="brand">
-        <a href="index.html" class="brand-link">AlgoPlayground</a>
-        <p class="subtitle">Search Visualizer</p>
-      </div>
-      <nav class="nav">
-        <a href="sorting.html" class="nav-link">
-          <span class="nav-icon">📊</span>
-          Sorting
-        </a>
-        <a href="search.html" class="nav-link active">
-          <span class="nav-icon">🔍</span>
-          Search
-        </a>
-        <a href="graph.html" class="nav-link">
-          <span class="nav-icon">🕸️</span>
-          Graph
-        </a>
-        <a href="algorithms.html" class="nav-link">
-          <span class="nav-icon">📚</span>
-          Algorithms
-        </a>
-      </nav>
-    </div>
+  <header class="header container header-inner">
+    <div class="brand"><a href="index.html">AlgoPlayground</a></div>
+    <nav class="nav">
+      <a href="sorting.html">Sorting</a>
+      <a href="search.html" class="active">Search</a>
+      <a href="graph.html">Graph</a>
+    </nav>
   </header>
 
   <main class="container">
-    <!-- Page Header -->
-    <section class="page-header">
-      <h1>Binary Search</h1>
-      <p>Efficiently find elements in sorted arrays using the divide and conquer approach</p>
+    <section class="panel controls">
+      <label>Array size: <span id="bsSizeLabel">25</span>
+        <input id="bsSize" type="range" min="7" max="70" value="25">
+      </label>
+
+      <label>Target value:
+        <input id="targetValue" type="number" value="42">
+      </label>
+
+      <label>Speed (ms)
+        <input id="bsSpeed" type="range" min="50" max="1000" value="300">
+      </label>
+
+      <div class="btn-row">
+        <button id="bsGenBtn" class="btn">Generate Sorted</button>
+        <button id="bsStartBtn" class="btn">Start</button>
+        <button id="bsPauseBtn" class="btn outline" disabled>Pause</button>
+        <button id="bsStepBtn" class="btn outline">Step</button>
+        <button id="bsResetBtn" class="btn outline">Reset</button>
+      </div>
+
+      <div class="metrics">
+        <div>Probes: <span id="probes">0</span></div>
+      </div>
     </section>
 
-    <div class="visualization-layout">
-      <!-- Controls Panel -->
-      <section class="controls-panel">
-        <div class="panel-section">
-          <h3>Array Configuration</h3>
-          <label class="control-group">
-            <span class="control-label">Array Size: <span id="bsSizeLabel">25</span></span>
-            <input id="bsSize" type="range" min="7" max="70" value="25" class="control-range">
-          </label>
-
-          <div class="btn-group">
-            <button id="bsGenBtn" class="btn btn-primary">
-              <span class="btn-icon">🔄</span>
-              Generate Sorted Array
-            </button>
-          </div>
-        </div>
-
-        <div class="panel-section">
-          <h3>Search Configuration</h3>
-          <label class="control-group">
-            <span class="control-label">Target Value</span>
-            <input id="targetValue" type="number" value="42" class="control-input" placeholder="Enter target value">
-          </label>
-
-          <label class="control-group">
-            <span class="control-label">Speed: <span id="bsSpeedLabel">300ms</span></span>
-            <input id="bsSpeed" type="range" min="50" max="1000" value="300" class="control-range">
-          </label>
-        </div>
-
-        <div class="panel-section">
-          <h3>Search Control</h3>
-          <div class="control-grid">
-            <button id="bsStartBtn" class="btn btn-success">
-              <span class="btn-icon">🔍</span>
-              Start Search
-            </button>
-            <button id="bsPauseBtn" class="btn btn-warning" disabled>
-              <span class="btn-icon">⏸️</span>
-              Pause
-            </button>
-            <button id="bsStepBtn" class="btn btn-info">
-              <span class="btn-icon">⏭️</span>
-              Step
-            </button>
-            <button id="bsResetBtn" class="btn btn-outline">
-              <span class="btn-icon">🔄</span>
-              Reset
-            </button>
-          </div>
-        </div>
-
-        <div class="panel-section">
-          <h3>Search Metrics</h3>
-          <div class="metrics-grid">
-            <div class="metric">
-              <span class="metric-label">Probes</span>
-              <span id="probes" class="metric-value">0</span>
-            </div>
-            <div class="metric">
-              <span class="metric-label">Status</span>
-              <span id="searchStatus" class="metric-value">Ready</span>
-            </div>
-            <div class="metric">
-              <span class="metric-label">Time Complexity</span>
-              <span class="metric-value">O(log n)</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="panel-section">
-          <div class="keyboard-hint">
-            <span class="hint-icon">⌨️</span>
-            <span>Space: Play/Pause • S: Step • R: Reset</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Visualization Area -->
-      <section class="visualization-area">
-        <div class="visual-header">
-          <h3>Binary Search Visualization</h3>
-          <div class="visual-legend">
-            <div class="legend-item">
-              <div class="legend-color default"></div>
-              <span>Normal</span>
-            </div>
-            <div class="legend-item">
-              <div class="legend-color searching"></div>
-              <span>Searching</span>
-            </div>
-            <div class="legend-item">
-              <div class="legend-color found"></div>
-              <span>Found</span>
-            </div>
-            <div class="legend-item">
-              <div class="legend-color bounds"></div>
-              <span>Search Bounds</span>
-            </div>
-          </div>
-        </div>
-
-        <div id="bsBars" class="bars-container"></div>
-
-        <div class="search-info">
-          <div class="info-card">
-            <h4>How Binary Search Works</h4>
-            <p>Binary search operates on sorted arrays by repeatedly dividing the search interval in half. It compares the target value to the middle element and eliminates half of the remaining elements based on the comparison.</p>
-          </div>
-        </div>
-
-        <div class="pseudo-section">
-          <h3>Algorithm Pseudocode</h3>
-          <pre id="bsPseudocode" class="pseudocode"></pre>
-        </div>
-      </section>
-    </div>
-
-    <!-- Algorithm Info -->
-    <section class="info-panel">
-      <div class="algorithm-info">
-        <h3>Binary Search Characteristics</h3>
-        <div class="complexity-info">
-          <div class="complexity">
-            <strong>Time Complexity:</strong>
-            <span>O(log n)</span>
-          </div>
-          <div class="complexity">
-            <strong>Space Complexity:</strong>
-            <span>O(1) for iterative, O(log n) for recursive</span>
-          </div>
-          <div class="complexity">
-            <strong>Requirements:</strong>
-            <span>Array must be sorted</span>
-          </div>
-        </div>
-        <div class="use-cases">
-          <h4>Common Use Cases:</h4>
-          <ul>
-            <li>Searching in large sorted datasets</li>
-            <li>Dictionary lookups</li>
-            <li>Phone book searches</li>
-            <li>Finding elements in sorted lists</li>
-          </ul>
-        </div>
-      </div>
+    <section class="panel visual-area">
+      <div id="bsBars" class="bars"></div>
+      <pre id="bsPseudocode" class="pseudocode"></pre>
     </section>
   </main>
 
