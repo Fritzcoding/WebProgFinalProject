@@ -3,43 +3,228 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Graph — AlgoPlayground</title>
+  <title>Graph Algorithms — AlgoPlayground</title>
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
-  <header class="header container header-inner">
-    <div class="brand"><a href="index.html">AlgoPlayground</a></div>
-    <nav class="nav"><a href="sorting.html">Sorting</a><a href="search.html">Search</a><a href="graph.html" class="active">Graph</a></nav>
+  <header class="header">
+    <div class="container header-inner">
+      <div class="brand">
+        <a href="index.html" class="brand-link">AlgoPlayground</a>
+        <p class="subtitle">Graph Visualizer</p>
+      </div>
+      <nav class="nav">
+        <a href="sorting.html" class="nav-link">
+          <span class="nav-icon">📊</span>
+          Sorting
+        </a>
+        <a href="search.html" class="nav-link">
+          <span class="nav-icon">🔍</span>
+          Search
+        </a>
+        <a href="graph.html" class="nav-link active">
+          <span class="nav-icon">🕸️</span>
+          Graph
+        </a>
+        <a href="algorithms.html" class="nav-link">
+          <span class="nav-icon">📚</span>
+          Algorithms
+        </a>
+      </nav>
+    </div>
   </header>
 
   <main class="container">
-    <section class="panel controls">
-      <div class="btn-row">
-        <button id="addNode" class="btn" title="Add a node">Add Node</button>
-        <button id="addEdge" class="btn outline" title="Toggle edge mode">Add Edge</button>
-        <button id="clearGraph" class="btn outline" title="Clear all">Clear</button>
-      </div>
-
-      <label>Start Node:
-        <select id="graphStart"></select>
-      </label>
-
-      <div class="btn-row">
-        <button id="runBFS" class="btn" title="Run BFS">Run BFS</button>
-        <button id="runDFS" class="btn" title="Run DFS">Run DFS</button>
-        <button id="resetGraphColors" class="btn outline" title="Reset colors">Reset Colors</button>
-      </div>
-
-      <div class="progress-bar"><div id="graphProgress" class="progress-fill"></div></div>
-      <div class="metrics">
-        <div>Visited: <span id="gVisited">0</span></div>
-      </div>
-      <p class="note">Click a node to select it for creating edges. Drag nodes to move them.</p>
+    <!-- Page Header -->
+    <section class="page-header">
+      <h1>Graph Algorithms</h1>
+      <p>Build interactive graphs and visualize traversal algorithms</p>
     </section>
 
-    <section class="panel visual-area">
-      <div id="graphArea" class="graph-area" tabindex="0" aria-label="Graph editor"></div>
-      <pre id="graphPseudo" class="pseudocode"></pre>
+    <div class="visualization-layout">
+      <!-- Controls Panel -->
+      <section class="controls-panel">
+        <div class="panel-section">
+          <h3>Graph Construction</h3>
+          <div class="btn-group-vertical">
+            <button id="addNode" class="btn btn-primary">
+              <span class="btn-icon">➕</span>
+              Add Node
+            </button>
+            <button id="addEdge" class="btn btn-outline">
+              <span class="btn-icon">🔗</span>
+              Add Edge
+            </button>
+            <button id="clearGraph" class="btn btn-danger">
+              <span class="btn-icon">🗑️</span>
+              Clear Graph
+            </button>
+          </div>
+          <div class="instruction-box">
+            <p><strong>Instructions:</strong></p>
+            <ul>
+              <li>Click empty space to add nodes</li>
+              <li>Enable "Add Edge" then click two nodes to connect</li>
+              <li>Drag nodes to reposition</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3>Algorithm Configuration</h3>
+          <label class="control-group">
+            <span class="control-label">Start Node</span>
+            <select id="graphStart" class="control-select">
+              <option value="">Select start node...</option>
+            </select>
+          </label>
+
+          <label class="control-group">
+            <span class="control-label">Speed: <span id="graphSpeedLabel">360ms</span></span>
+            <input id="graphSpeed" type="range" min="100" max="1000" value="360" class="control-range">
+          </label>
+        </div>
+
+        <div class="panel-section">
+          <h3>Algorithm Control</h3>
+          <div class="control-grid">
+            <button id="runBFS" class="btn btn-success">
+              <span class="btn-icon">🌊</span>
+              Run BFS
+            </button>
+            <button id="runDFS" class="btn btn-info">
+              <span class="btn-icon">🌀</span>
+              Run DFS
+            </button>
+            <button id="resetGraphColors" class="btn btn-outline">
+              <span class="btn-icon">🎨</span>
+              Reset Colors
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <h3>Graph Metrics</h3>
+          <div class="metrics-grid">
+            <div class="metric">
+              <span class="metric-label">Nodes</span>
+              <span id="nodeCount" class="metric-value">0</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Edges</span>
+              <span id="edgeCount" class="metric-value">0</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Visited</span>
+              <span id="gVisited" class="metric-value">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="keyboard-hint">
+            <span class="hint-icon">⌨️</span>
+            <span>ESC: Cancel Edge Mode • Delete: Remove Selected</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Visualization Area -->
+      <section class="visualization-area">
+        <div class="visual-header">
+          <h3>Graph Visualization</h3>
+          <div class="visual-legend">
+            <div class="legend-item">
+              <div class="legend-color default"></div>
+              <span>Unvisited</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color visiting"></div>
+              <span>Visiting</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color visited"></div>
+              <span>Visited</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color processing"></div>
+              <span>Processing</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="graphArea" class="graph-container" tabindex="0">
+          <div class="graph-placeholder">
+            <div class="placeholder-content">
+              <div class="placeholder-icon">🕸️</div>
+              <h3>Build Your Graph</h3>
+              <p>Click "Add Node" or click anywhere in this area to start building your graph</p>
+              <button id="addFirstNode" class="btn btn-primary">
+                <span class="btn-icon">➕</span>
+                Add First Node
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="algorithm-comparison">
+          <div class="comparison-card">
+            <h4>BFS (Breadth-First Search)</h4>
+            <p>Explores neighbors level by level. Uses a queue. Good for finding shortest paths in unweighted graphs.</p>
+            <div class="complexity">
+              <strong>Time: O(V + E)</strong> • <strong>Space: O(V)</strong>
+            </div>
+          </div>
+          <div class="comparison-card">
+            <h4>DFS (Depth-First Search)</h4>
+            <p>Explores as far as possible along each branch. Uses a stack. Good for cycle detection and topological sorting.</p>
+            <div class="complexity">
+              <strong>Time: O(V + E)</strong> • <strong>Space: O(V)</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Algorithm Info -->
+    <section class="info-panel">
+      <div class="algorithm-info">
+        <h3>Graph Traversal Algorithms</h3>
+        
+        <div class="algorithm-details">
+          <div class="detail-section">
+            <h4>Breadth-First Search (BFS)</h4>
+            <p>BFS explores the graph level by level, visiting all neighbors of a node before moving to the next level. It's implemented using a queue and is particularly useful for finding the shortest path in unweighted graphs.</p>
+          </div>
+
+          <div class="detail-section">
+            <h4>Depth-First Search (DFS)</h4>
+            <p>DFS explores as far as possible along each branch before backtracking. It can be implemented recursively or using a stack. DFS is useful for topological sorting, cycle detection, and solving puzzles.</p>
+          </div>
+        </div>
+
+        <div class="use-cases">
+          <h4>Common Applications:</h4>
+          <div class="use-case-grid">
+            <div class="use-case">
+              <strong>Social Networks</strong>
+              <p>Finding connections between people</p>
+            </div>
+            <div class="use-case">
+              <strong>Web Crawling</strong>
+              <p>Discovering and indexing web pages</p>
+            </div>
+            <div class="use-case">
+              <strong>Network Routing</strong>
+              <p>Finding optimal paths in networks</p>
+            </div>
+            <div class="use-case">
+              <strong>Game Development</strong>
+              <p>Pathfinding and AI decision making</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
