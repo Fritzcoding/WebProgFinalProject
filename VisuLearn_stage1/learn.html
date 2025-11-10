@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VisuLearn — Learn</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="page-root">
+<header class="site-header glass">
+  <div class="brand"><h1>Visu<span>Learn</span></h1></div>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="algorithms.html">Algorithms</a>
+    <a href="structures.html">Structures</a>
+    <a href="benchmark.html">Benchmark</a>
+    <a href="learn.html" class="active">Learn</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<main class="container">
+  <h2>Hands-on: Stack, Queue, Linked List</h2>
+  <div class="panel two-col">
+    <div class="left">
+      <h3>Stack</h3>
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
+        <input id="stack-input" placeholder="Value" style="padding:8px;border-radius:8px;border:1px solid #e6e9ef;">
+        <button id="stack-push" class="btn">Push</button>
+        <button id="stack-pop" class="btn primary">Pop</button>
+        <button id="stack-reset" class="btn ghost">Reset</button>
+      </div>
+      <div id="stack-canvas" class="tree-canvas" style="min-height:200px;display:flex;flex-direction:column-reverse;gap:8px;padding:12px"></div>
+
+      <h3 style="margin-top:16px">Queue</h3>
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
+        <input id="queue-input" placeholder="Value" style="padding:8px;border-radius:8px;border:1px solid #e6e9ef;">
+        <button id="queue-enq" class="btn">Enqueue</button>
+        <button id="queue-deq" class="btn primary">Dequeue</button>
+        <button id="queue-reset" class="btn ghost">Reset</button>
+      </div>
+      <div id="queue-canvas" class="graph-canvas" style="min-height:100px;display:flex;gap:8px;align-items:center;padding:12px;overflow:auto"></div>
+    </div>
+
+    <div class="right">
+      <h3>Linked List</h3>
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
+        <input id="ll-input" placeholder="Value" style="padding:8px;border-radius:8px;border:1px solid #e6e9ef;">
+        <button id="ll-push" class="btn">Push</button>
+        <button id="ll-pop" class="btn primary">Pop</button>
+        <button id="ll-insert-pos" class="btn">Insert at</button>
+        <input id="ll-pos" placeholder="pos" style="width:60px;padding:8px;border-radius:8px;border:1px solid #e6e9ef;">
+        <button id="ll-reset" class="btn ghost">Reset</button>
+      </div>
+      <div id="ll-canvas" class="graph-canvas" style="min-height:240px;display:flex;gap:12px;align-items:center;padding:12px;overflow:auto"></div>
+      <div style="margin-top:8px"><strong>LL Log:</strong> <span id="ll-log" style="color:var(--muted)"></span></div>
+    </div>
+  </div>
+</main>
+
+<script src="assets/js/learn_structs.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

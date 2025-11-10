@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>VisuLearn — Benchmark</title>
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="page-root">
+<header class="site-header glass">
+  <div class="brand"><h1>Visu<span>Learn</span></h1></div>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="algorithms.html">Algorithms</a>
+    <a href="structures.html">Structures</a>
+    <a href="benchmark.html" class="active">Benchmark</a>
+    <a href="learn.html">Learn</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<main class="container">
+  <h2>Runtime Benchmark</h2>
+  <div class="panel">
+    <label>Input size:
+      <select id="bench-size"><option>100</option><option>500</option><option>1000</option><option>2000</option></select>
+    </label>
+    <label style="margin-left:12px">Repeats:
+      <input id="bench-repeats" value="3" style="width:60px">
+    </label>
+    <button id="bench-run" class="btn primary" style="margin-left:12px">Run</button>
+  </div>
+  <div style="margin-top:12px" id="bench-results"></div>
+  <h3>Performance Comparison</h3>
+  <div id="chart_div" style="width:100%;height:420px"></div>
+  <div class="controls"><button id="gen-data" class="btn primary">Generate Data</button></div>
+</main>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="assets/js/d3visuals.js"></script>
+<script src="assets/js/benchmark.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

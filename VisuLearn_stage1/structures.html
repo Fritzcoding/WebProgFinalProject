@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VisuLearn — Structures</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="page-root">
+<header class="site-header glass">
+  <div class="brand"><h1>Visu<span>Learn</span></h1></div>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="algorithms.html">Algorithms</a>
+    <a href="structures.html" class="active">Structures</a>
+    <a href="benchmark.html">Benchmark</a>
+    <a href="learn.html">Learn</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<main class="container">
+  <h2>Interactive Data Structures</h2>
+  <div class="panel two-col">
+    <div class="left">
+      <h3>Graph Lab</h3>
+      <div class="graph-controls">
+        <button id="add-node" class="btn">Add Node</button>
+        <button id="add-edge" class="btn">Add Edge</button>
+        <button id="bfs" class="btn primary">Run BFS</button>
+        <button id="dfs" class="btn">Run DFS</button>
+        <button id="reset-graph" class="btn ghost">Reset</button>
+      </div>
+      <div id="graph-canvas" class="graph-canvas"></div>
+    </div>
+
+    <div class="right">
+      <h3 id="heap-title">Heap Visualizer (Max-Heap — tree + array)</h3>
+      <div class="structure-controls" style="margin-bottom:8px;">
+        <input id="heap-input" placeholder="Number or comma list (e.g. 5,3,8)" style="width:58%;padding:8px;border-radius:8px;border:1px solid #e6e9ef;">
+        <button id="heap-build" class="btn">Build</button>
+        <button id="heap-insert" class="btn primary">Insert</button>
+        <button id="heap-extract" class="btn">Extract Max</button>
+        <button id="heap-reset" class="btn ghost">Reset</button>
+      </div>
+
+      <div id="heap-tree" class="tree-canvas" style="height:300px"></div>
+      <div id="heap-array" style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap"></div>
+      <div style="margin-top:8px;"><strong>Heap Log:</strong> <span id="heap-log" style="color:var(--muted)"></span></div>
+    </div>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="assets/js/graph.js"></script>
+<script src="assets/js/heap_tree.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

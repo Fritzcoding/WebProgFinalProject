@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>VisuLearn — Algorithms</title>
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="page-root">
+<header class="site-header glass">
+  <div class="brand"><h1>Visu<span>Learn</span></h1></div>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="algorithms.html" class="active">Algorithms</a>
+    <a href="structures.html">Structures</a>
+    <a href="benchmark.html">Benchmark</a>
+    <a href="learn.html">Learn</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<main class="container">
+  <h2>Sorting & Searching Playground</h2>
+  <div class="panel">
+    <div class="controls">
+      <label>Algorithm:
+        <select id="algo-select">
+          <option value="bubble">Bubble Sort</option>
+          <option value="insertion">Insertion Sort</option>
+          <option value="merge">Merge Sort</option>
+          <option value="quick">Quick Sort</option>
+        </select>
+      </label>
+      <label>Size: <input type="range" id="size-range" min="5" max="50" value="12"></label>
+      <label>Speed: <input type="range" id="speed-range" min="50" max="1200" value="350"></label>
+      <div class="ctrl-buttons">
+        <button id="shuffle-btn" class="btn">Shuffle</button>
+        <button id="play-btn" class="btn primary">Play</button>
+        <button id="step-btn" class="btn">Step</button>
+        <button id="reset-btn" class="btn ghost">Reset</button>
+      </div>
+      <div class="input-area">
+        <textarea id="array-input" rows="2" placeholder="Comma separated values (e.g. 5,3,8,1)"></textarea>
+        <button id="apply-input" class="btn small">Apply</button>
+      </div>
+    </div>
+    <div class="visual-area">
+      <div id="sorting-canvas" class="sorting-canvas" aria-label="Sorting visualization"></div>
+      <div class="legend">Current algorithm visualizer</div>
+    </div>
+  </div>
+
+  <div class="code-panel" style="margin-top:12px;display:flex;gap:12px;align-items:flex-start">
+    <div style="width:360px">
+      <h3>Algorithm code</h3>
+      <pre class="code-block" id="code-block">
+<code id="bubble-line-0" class="code-line">function bubbleSort(a) {</code>
+<code id="bubble-line-1" class="code-line">  for (let i = 0; i &lt; a.length; i++) {</code>
+<code id="bubble-line-2" class="code-line">    for (let j = 0; j &lt; a.length - 1 - i; j++) {</code>
+<code id="bubble-line-3" class="code-line">      if (a[j] &gt; a[j+1]) {</code>
+<code id="bubble-line-4" class="code-line">        swap(a, j, j+1);</code>
+<code id="bubble-line-5" class="code-line">      }</code>
+<code id="bubble-line-6" class="code-line">    }</code>
+<code id="bubble-line-7" class="code-line">  }</code>
+<code id="bubble-line-8" class="code-line">}</code>
+
+<code id="insertion-line-0" class="code-line">function insertionSort(a) {</code>
+<code id="insertion-line-1" class="code-line">  for (let i = 1; i &lt; a.length; i++) {</code>
+<code id="insertion-line-2" class="code-line">    let key = a[i];</code>
+<code id="insertion-line-3" class="code-line">    let j = i - 1;</code>
+<code id="insertion-line-4" class="code-line">    while (j &gt;= 0 &amp;&amp; a[j] &gt; key) {</code>
+<code id="insertion-line-5" class="code-line">      a[j+1] = a[j];</code>
+<code id="insertion-line-6" class="code-line">      j--;</code>
+<code id="insertion-line-7" class="code-line">    }</code>
+<code id="insertion-line-8" class="code-line">    a[j+1] = key;</code>
+<code id="insertion-line-9" class="code-line">  }</code>
+<code id="insertion-line-10" class="code-line">}</code>
+      </pre>
+    </div>
+    <div style="flex:1">
+      <div style="margin-bottom:8px"><strong>Trace controls</strong></div>
+      <div class="controls">
+        <button id="trace-play" class="btn">Play</button>
+        <button id="trace-step" class="btn">Step</button>
+        <button id="trace-reset" class="btn ghost">Reset</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="assets/js/sorting.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

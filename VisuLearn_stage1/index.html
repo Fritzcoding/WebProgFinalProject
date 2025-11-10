@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>VisuLearn — Interactive Algorithm Visualizations</title>
+<link rel="stylesheet" href="assets/css/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body class="page-root">
+<header class="site-header glass">
+  <div class="brand">
+    <h1>Visu<span>Learn</span></h1>
+    <p class="tagline">See it. Play with it. Learn it.</p>
+  </div>
+  <nav class="nav">
+    <a href="index.html" class="active">Home</a>
+    <a href="algorithms.html">Algorithms</a>
+    <a href="structures.html">Structures</a>
+    <a href="benchmark.html">Benchmark</a>
+    <a href="learn.html">Learn</a>
+    <a href="quiz.html">Quiz</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-left">
+      <h2 class="headline">Interactive, animated learning for algorithms & data structures</h2>
+      <p class="lead">Explore sorting, graphs, trees and recursion through playful animations, 
+      step controls, and live code tracing. <br><br>
+      D3-powered visualizations <br>
+      Playground & custom inputs</p>
+      
+      <div class="cta-row">
+        <a class="btn primary" href="algorithms.html">Try an algorithm</a>
+        <a class="btn ghost" href="structures.html">Try a structure</a>
+      </div>
+    </div>
+    <div class="hero-right" id="hero-canvas">
+      <div class="bar-scene" id="landing-bars"></div>
+    </div>
+  </section>
+
+  <section class="showcase">
+    <h3>What you can do</h3>
+    <div class="grid">
+      <div class="card">
+        <h4>Sorting Studio</h4>
+        <p>Visualize bubble, insertion, merge and quicksort with adjustable speed and input.</p>
+        <a href="algorithms.html" class="btn small">Open</a>
+      </div>
+      <div class="card">
+        <h4>Graph Lab</h4>
+        <p>Drag nodes, run BFS/DFS, and watch traversal waves expand.</p>
+        <a href="structures.html" class="btn small">Open</a>
+      </div>
+      <div class="card">
+        <h4>Compare</h4>
+        <p>Compare measured run-time and operation counts across inputs.</p>
+        <a href="benchmark.html" class="btn small">Compare</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="footer-cta">
+    <br>
+    <a href="algorithms.html" class="btn primary">Get started</a>
+  </section>
+</main>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

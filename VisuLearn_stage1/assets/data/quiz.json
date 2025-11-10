@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "difficulty": "easy",
+    "question": "What is the time complexity of bubble sort in the worst case?",
+    "options": ["O(n)", "O(n log n)", "O(n²)"],
+    "answer": "O(n²)"
+  },
+  {
+    "id": 2,
+    "difficulty": "easy",
+    "question": "Which data structure uses LIFO order?",
+    "options": ["Queue", "Stack", "Tree"],
+    "answer": "Stack"
+  },
+  {
+    "id": 3,
+    "difficulty": "medium",
+    "question": "What is the array index of the left child of index i in a binary heap?",
+    "options": ["2*i", "2*i+1", "i+1"],
+    "answer": "2*i+1"
+  }
+]
